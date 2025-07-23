@@ -24,6 +24,9 @@ RUN npm ci
 # Copy the rest of the application files
 COPY --chown=nestjs:nodejs . .
 
+# Generate Prisma client
+RUN npx prisma generate
+
 # Build the NestJS application
 RUN npm run build
 
