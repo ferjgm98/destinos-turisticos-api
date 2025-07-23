@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { TouristicDestination } from '@prisma/client';
 import { PrismaService } from 'src/prisma.service';
+import { CreateTouristicDestinationDto } from './dtos/create-touristic-destinations.dto';
 
 @Injectable()
 export class TouristicDestinationsService {
@@ -21,5 +22,13 @@ export class TouristicDestinationsService {
     }
 
     return touristicDestination;
+  }
+
+  async create(
+    createTouristicDestinationDto: CreateTouristicDestinationDto,
+  ): Promise<TouristicDestination> {
+    return this.prisma.touristicDestination.create({
+      data: createTouristicDestinationDto,
+    });
   }
 }
