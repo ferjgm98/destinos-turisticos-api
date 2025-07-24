@@ -12,6 +12,7 @@ datasource db {
   provider = "postgresql"
   // Provided by docker compose
   url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model TouristicDestination {
