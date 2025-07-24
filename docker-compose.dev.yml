@@ -7,6 +7,7 @@ services:
     environment:
       NODE_ENV: development
       DATABASE_URL: postgresql://${DB_USER:-postgres}:${DB_PASSWORD:-postgres}@postgres:5432/${DB_NAME:-touristic_destinations}
+      DIRECT_URL: postgresql://${DB_USER:-postgres}:${DB_PASSWORD:-postgres}@postgres:5432/${DB_NAME:-touristic_destinations}
     volumes:
       - .:/usr/src/app # mount the whole project in container, so if any file change it will be sync with the container
       - /usr/src/app/node_modules # Node modules are preserved so the container has the most compatible ones

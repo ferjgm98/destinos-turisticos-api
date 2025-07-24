@@ -73,9 +73,12 @@ DB_NAME=touristic_destinations
 
 Si prefieres ejecutar sin Docker:
 
-> Es necesario agregar la variable de entorno DATABASE_URL ya que al usar docker esta se formatea automaticamente, a si mismo las variables de DB_USER, DB_PASSWORD y DB_NAME no es necesaria
+> Es necesario agregar la variable de entorno DATABASE_URL y DIRECT_URL ya que al usar docker esta se formatea automaticamente, a si mismo las variables de DB_USER, DB_PASSWORD y DB_NAME no es necesaria
 
 ```bash
+DATABASE_URL=postgresql://<db_user>:<db_password>@<db_host>:<db_port>/<db_name>
+
+# this is not required in a real dev or prod env unless we use supabase as provider, it was added in order to add a deployment for the demo
 DATABASE_URL=postgresql://<db_user>:<db_password>@<db_host>:<db_port>/<db_name>
 ```
 
