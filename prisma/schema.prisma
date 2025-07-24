@@ -34,7 +34,7 @@ model TouristicDestinationLikes {
   createdAt DateTime @default(now()) @map("created_at")
 
 
-  destination TouristicDestination @relation(fields: [touristicDestinationId], references: [id])
+  destination TouristicDestination @relation(fields: [touristicDestinationId], references: [id], onDelete: Cascade)
 
   @@map("touristic_destination_likes")
 }
