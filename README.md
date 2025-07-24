@@ -1,98 +1,127 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# API de Destinos Turísticos
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Este proyecto es una API desarrollada con NestJS para la gestión de destinos turisticos, incluyendo funcionalidad de likes en tiempo real mediante WebSockets.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Caracteristicas
 
-## Description
+- CRUD de destinos turísticos
+- Sistema de likes con WebSockets para actualizaciones en tiempo real
+- Paginación
+- Base de datos PostgreSQL con Prisma ORM
+- Documentación con Swagger
+- Tests unitarios
+- Docker para desarrollo y producción
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Tecnologías
 
-## Project setup
+- **Backend**: NestJS, TypeScript
+- **Base de datos**: PostgreSQL
+- **ORM**: Prisma
+- **WebSockets**: Socket.IO
+- **Documentación**: Swagger
+- **Testing**: Jest
+- **Contenedores**: Docker & Docker Compose
 
-```bash
-$ npm install
-```
+## Configuración del Entorno
 
-## Compile and run the project
+### Variables de Entorno
+
+Crea un archivo `.env` en la raíz del proyecto con las siguientes variables:
 
 ```bash
-# development
-$ npm run start
+PORT=3000
 
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+DB_USER=postgres
+DB_PASSWORD=postgres
+DB_NAME=touristic_destinations
 ```
 
-## Run tests
+### Levantar el Entorno de Desarrollo
+
+1. **Clonar el repositorio**
+
+   ```bash
+   git clone <url-del-repositorio>
+   cd destinos-turisticos-api
+   ```
+
+2. **Levantar con Docker (Recomendado)**
+
+   ```bash
+   npm run docker:dev:up
+   ```
+
+3. **Ejecutar migraciones**
+
+   ```bash
+   npm run docker:migrate:dev
+   ```
+
+4. **Ver logs**
+
+   ```bash
+   npm run docker:dev:logs
+   ```
+
+5. **Servidor local corre por default en puerto 3000**
+
+   ```bash
+     http://localhost:3000
+   ```
+
+### Instalación Local (Alternativa)
+
+Si prefieres ejecutar sin Docker:
+
+> Es necesario agregar la variable de entorno DATABASE_URL ya que al usar docker esta se formatea automaticamente, a si mismo las variables de DB_USER, DB_PASSWORD y DB_NAME no es necesaria
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+DATABASE_URL=postgresql://<db_user>:<db_password>@<db_host>:<db_port>/<db_name>
 ```
-
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+# Instalar dependencias
+npm install
+
+# Ejecutar migraciones
+npx prisma migrate dev
+
+# Iniciar en modo desarrollo
+npm run start:dev
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+## Comandos Útiles
 
-## Resources
+### Scripts NPM
 
-Check out a few resources that may come in handy when working with NestJS:
+```bash
+# Desarrollo sin docker
+npm run start:dev          # Iniciar con hot reload
+npm run start              # Iniciar modo normal
+npm run start:prod         # Iniciar modo producción
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+# Testing
+npm run test               # Tests unitarios
+npm run test:watch         # Tests en modo watch
+npm run test:cov
+npm run test:e2e
 
-## Support
+# Base de datos
+npm run migrate:dev        # Ejecutar migraciones (desarrollo)
+npm run migrate:deploy     # Ejecutar migraciones (producción)
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+# Docker
+npm run docker:dev:up      # Levantar entorno desarrollo
+npm run docker:dev:down    # Detener entorno desarrollo
+npm run docker:dev:logs    # Ver logs desarrollo
+npm run docker:migrate:dev # Migraciones en Docker
+npm run docker:prod:up     # Levantar entorno producción
+npm run docker:prod:down   # Detener entorno producción
+```
 
-## Stay in touch
+## Documentación API
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Una vez levantado el servidor, puedes acceder a la documentación de Swagger en:
 
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+- **Desarrollo**: http://localhost:3000/api
+- **Producción**: http://localhost:3000/api
