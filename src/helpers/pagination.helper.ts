@@ -1,6 +1,6 @@
-import { PaginationMetaDto } from 'src/dtos/pagination-meta.dto';
-import { PaginationResponseDto } from 'src/dtos/pagination-response.dto';
-import { PaginationDto } from 'src/dtos/pagination.dto';
+import { PaginationMetaDto } from '../dtos/pagination-meta.dto';
+import { PaginationResponseDto } from '../dtos/pagination-response.dto';
+import { PaginationDto } from '../dtos/pagination.dto';
 
 export function createPaginationResponse<T>(
   data: T[],
