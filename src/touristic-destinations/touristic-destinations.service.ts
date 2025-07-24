@@ -9,10 +9,14 @@ import { CreateTouristicDestinationDto } from './dtos/create-touristic-destinati
 import { PaginationDto } from 'src/dtos/pagination.dto';
 import { createPaginationResponse } from 'src/helpers/pagination.helper';
 import { PaginationResponseDto } from 'src/dtos/pagination-response.dto';
+import { TouristicDestinationLikesGateway } from 'src/touristic-destination-likes/touristic-destination-likes.gateway';
 
 @Injectable()
 export class TouristicDestinationsService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly touristicDestinationLikesGateway: TouristicDestinationLikesGateway,
+  ) {}
 
   async findAll(
     query: PaginationDto,
@@ -111,6 +115,9 @@ export class TouristicDestinationsService {
           },
         },
       });
+
+      // Broadcast the like to all connected clients in the socket server
+      this.touristicDestinationLikesGateway.broadcastLike(item.id, likes);
 
       return { likes };
     } catch {
