@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   Post,
+  Put,
   Query,
 } from '@nestjs/common';
 import { TouristicDestinationsService } from './touristic-destinations.service';
@@ -13,6 +14,7 @@ import { CreateTouristicDestinationDto } from './dtos/create-touristic-destinati
 import { ApiOperation } from '@nestjs/swagger';
 import { PaginationDto } from 'src/dtos/pagination.dto';
 import { PaginationResponseDto } from 'src/dtos/pagination-response.dto';
+import { UpdateTouristicDestinationDto } from './dtos/update-touristic-destination.dto';
 
 @Controller('touristic-destinations')
 export class TouristicDestinationsController {
@@ -51,6 +53,21 @@ export class TouristicDestinationsController {
   ): Promise<TouristicDestination> {
     return this.touristicDestinationsService.create(
       createTouristicDestinationDto,
+    );
+  }
+
+  @ApiOperation({
+    summary: 'Update a touristic destination by id',
+    description: 'Update a touristic destination by id',
+  })
+  @Put(':id')
+  update(
+    @Param('id') id: number,
+    @Body() updateTouristicDestinationDto: UpdateTouristicDestinationDto,
+  ): Promise<TouristicDestination> {
+    return this.touristicDestinationsService.update(
+      id,
+      updateTouristicDestinationDto,
     );
   }
 

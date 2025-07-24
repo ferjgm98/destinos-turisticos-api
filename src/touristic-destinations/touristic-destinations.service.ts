@@ -10,6 +10,7 @@ import { PaginationDto } from '../dtos/pagination.dto';
 import { createPaginationResponse } from '../helpers/pagination.helper';
 import { PaginationResponseDto } from '../dtos/pagination-response.dto';
 import { TouristicDestinationLikesGateway } from '../touristic-destination-likes/touristic-destination-likes.gateway';
+import { UpdateTouristicDestinationDto } from './dtos/update-touristic-destination.dto';
 
 @Injectable()
 export class TouristicDestinationsService {
@@ -74,6 +75,29 @@ export class TouristicDestinationsService {
     } catch {
       throw new InternalServerErrorException(
         'Error creating touristic destination',
+      );
+    }
+  }
+
+  async update(
+    id: number,
+    updateTouristicDestinationDto: UpdateTouristicDestinationDto,
+  ): Promise<TouristicDestination> {
+    try {
+      const item = await this.findOne(id);
+
+      return this.prisma.touristicDestination.update({
+        where: { id: item.id },
+        data: updateTouristicDestinationDto,
+        include: {
+          _count: {
+            select: { likes: true },
+          },
+        },
+      });
+    } catch {
+      throw new InternalServerErrorException(
+        'Error updating touristic destination',
       );
     }
   }
