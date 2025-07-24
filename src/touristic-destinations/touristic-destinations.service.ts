@@ -4,12 +4,12 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { TouristicDestination } from '@prisma/client';
-import { PrismaService } from 'src/prisma.service';
+import { PrismaService } from '../prisma.service';
 import { CreateTouristicDestinationDto } from './dtos/create-touristic-destinations.dto';
-import { PaginationDto } from 'src/dtos/pagination.dto';
-import { createPaginationResponse } from 'src/helpers/pagination.helper';
-import { PaginationResponseDto } from 'src/dtos/pagination-response.dto';
-import { TouristicDestinationLikesGateway } from 'src/touristic-destination-likes/touristic-destination-likes.gateway';
+import { PaginationDto } from '../dtos/pagination.dto';
+import { createPaginationResponse } from '../helpers/pagination.helper';
+import { PaginationResponseDto } from '../dtos/pagination-response.dto';
+import { TouristicDestinationLikesGateway } from '../touristic-destination-likes/touristic-destination-likes.gateway';
 
 @Injectable()
 export class TouristicDestinationsService {
