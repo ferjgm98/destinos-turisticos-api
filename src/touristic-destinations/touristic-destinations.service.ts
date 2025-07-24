@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { TouristicDestination } from '@prisma/client';
 import { PrismaService } from 'src/prisma.service';
 import { CreateTouristicDestinationDto } from './dtos/create-touristic-destinations.dto';
@@ -13,23 +17,29 @@ export class TouristicDestinationsService {
   async findAll(
     query: PaginationDto,
   ): Promise<PaginationResponseDto<TouristicDestination>> {
-    const { page, limit } = query;
-    const offset = (page - 1) * limit;
+    try {
+      const { page, limit } = query;
+      const offset = (page - 1) * limit;
 
-    const [data, total] = await this.prisma.$transaction([
-      this.prisma.touristicDestination.findMany({
-        skip: offset,
-        take: limit,
-        include: {
-          _count: {
-            select: { likes: true },
+      const [data, total] = await this.prisma.$transaction([
+        this.prisma.touristicDestination.findMany({
+          skip: offset,
+          take: limit,
+          include: {
+            _count: {
+              select: { likes: true },
+            },
           },
-        },
-      }),
-      this.prisma.touristicDestination.count(),
-    ]);
+        }),
+        this.prisma.touristicDestination.count(),
+      ]);
 
-    return createPaginationResponse(data, total, query);
+      return createPaginationResponse(data, total, query);
+    } catch {
+      throw new InternalServerErrorException(
+        'Error getting touristic destinations',
+      );
+    }
   }
 
   async findOne(id: number): Promise<TouristicDestination> {
