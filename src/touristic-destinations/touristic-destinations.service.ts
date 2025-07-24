@@ -88,4 +88,35 @@ export class TouristicDestinationsService {
       );
     }
   }
+
+  async likeTouristicDestination(id: number): Promise<{ likes: number }> {
+    try {
+      const item = await this.findOne(id);
+
+      await this.prisma.touristicDestinationLikes.create({
+        data: {
+          destination: {
+            connect: {
+              id: item.id,
+            },
+          },
+          createdAt: new Date(),
+        },
+      });
+
+      const likes = await this.prisma.touristicDestinationLikes.count({
+        where: {
+          destination: {
+            id: item.id,
+          },
+        },
+      });
+
+      return { likes };
+    } catch {
+      throw new InternalServerErrorException(
+        'Error liking touristic destination',
+      );
+    }
+  }
 }

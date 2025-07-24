@@ -62,4 +62,14 @@ export class TouristicDestinationsController {
   delete(@Param('id') id: number): Promise<TouristicDestination> {
     return this.touristicDestinationsService.delete(id);
   }
+
+  @ApiOperation({
+    summary: 'Like a touristic destination by id',
+  })
+  @Post(':id/like')
+  likeTouristicDestination(
+    @Param('id') id: number,
+  ): Promise<{ likes: number }> {
+    return this.touristicDestinationsService.likeTouristicDestination(id);
+  }
 }
