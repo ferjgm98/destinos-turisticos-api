@@ -1,8 +1,10 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { TouristicDestinationsService } from './touristic-destinations.service';
 import { TouristicDestination } from '@prisma/client';
 import { CreateTouristicDestinationDto } from './dtos/create-touristic-destinations.dto';
 import { ApiOperation } from '@nestjs/swagger';
+import { PaginationDto } from 'src/dtos/pagination.dto';
+import { PaginationResponseDto } from 'src/dtos/pagination-response.dto';
 
 @Controller('touristic-destinations')
 export class TouristicDestinationsController {
@@ -15,8 +17,10 @@ export class TouristicDestinationsController {
     description: 'Find all touristic destinations',
   })
   @Get()
-  findAll(): Promise<TouristicDestination[]> {
-    return this.touristicDestinationsService.findAll();
+  findAll(
+    @Query() query: PaginationDto,
+  ): Promise<PaginationResponseDto<TouristicDestination>> {
+    return this.touristicDestinationsService.findAll(query);
   }
 
   @ApiOperation({

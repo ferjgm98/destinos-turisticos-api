@@ -2,13 +2,34 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { TouristicDestination } from '@prisma/client';
 import { PrismaService } from 'src/prisma.service';
 import { CreateTouristicDestinationDto } from './dtos/create-touristic-destinations.dto';
+import { PaginationDto } from 'src/dtos/pagination.dto';
+import { createPaginationResponse } from 'src/helpers/pagination.helper';
+import { PaginationResponseDto } from 'src/dtos/pagination-response.dto';
 
 @Injectable()
 export class TouristicDestinationsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async findAll(): Promise<TouristicDestination[]> {
-    return this.prisma.touristicDestination.findMany();
+  async findAll(
+    query: PaginationDto,
+  ): Promise<PaginationResponseDto<TouristicDestination>> {
+    const { page, limit } = query;
+    const offset = (page - 1) * limit;
+
+    const [data, total] = await this.prisma.$transaction([
+      this.prisma.touristicDestination.findMany({
+        skip: offset,
+        take: limit,
+        include: {
+          _count: {
+            select: { likes: true },
+          },
+        },
+      }),
+      this.prisma.touristicDestination.count(),
+    ]);
+
+    return createPaginationResponse(data, total, query);
   }
 
   async findOne(id: number): Promise<TouristicDestination> {
