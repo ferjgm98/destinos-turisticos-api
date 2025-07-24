@@ -46,6 +46,11 @@ export class TouristicDestinationsService {
     const touristicDestination =
       await this.prisma.touristicDestination.findUnique({
         where: { id },
+        include: {
+          _count: {
+            select: { likes: true },
+          },
+        },
       });
 
     if (!touristicDestination) {
@@ -58,8 +63,29 @@ export class TouristicDestinationsService {
   async create(
     createTouristicDestinationDto: CreateTouristicDestinationDto,
   ): Promise<TouristicDestination> {
-    return this.prisma.touristicDestination.create({
-      data: createTouristicDestinationDto,
-    });
+    try {
+      return this.prisma.touristicDestination.create({
+        data: createTouristicDestinationDto,
+      });
+    } catch {
+      throw new InternalServerErrorException(
+        'Error creating touristic destination',
+      );
+    }
+  }
+
+  async delete(id: number): Promise<TouristicDestination> {
+    try {
+      const item = await this.findOne(id);
+      await this.prisma.touristicDestination.delete({
+        where: { id: item.id },
+      });
+
+      return item;
+    } catch {
+      throw new InternalServerErrorException(
+        'Error deleting touristic destination',
+      );
+    }
   }
 }

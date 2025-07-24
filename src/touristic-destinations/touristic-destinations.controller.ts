@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { TouristicDestinationsService } from './touristic-destinations.service';
 import { TouristicDestination } from '@prisma/client';
 import { CreateTouristicDestinationDto } from './dtos/create-touristic-destinations.dto';
@@ -44,5 +52,14 @@ export class TouristicDestinationsController {
     return this.touristicDestinationsService.create(
       createTouristicDestinationDto,
     );
+  }
+
+  @ApiOperation({
+    summary: 'Delete a touristic destination by id',
+    description: 'Delete a touristic destination by id',
+  })
+  @Delete(':id')
+  delete(@Param('id') id: number): Promise<TouristicDestination> {
+    return this.touristicDestinationsService.delete(id);
   }
 }
